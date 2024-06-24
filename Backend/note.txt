@@ -1,0 +1,6 @@
+Java Script
+-----------
+-programming language
+-both frontend as well as backend
+    frontend -used to create interactive web pages
+    backend - logical operations
