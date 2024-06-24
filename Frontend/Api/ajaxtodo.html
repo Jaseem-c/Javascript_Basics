@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX-TODO</title>
+    <!-- boostrap cdn-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+<style>
+    *{
+        font-family: "Playfair Display", serif;
+    }
+</style>
+<body>
+    <h1 class="text-center text-success mt-5">TO DO LIST</h1>
+    <div class="row w-100">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table table-bordered mt-4 shadow">
+                <thead>
+                    <tr>
+                        <th class="bg-success text-light ">userId</th>
+                        <th class="bg-success text-light ">id</th>
+                        <th class="bg-success text-light ">title</th>
+                        <th class="bg-success text-light ">completed</th>
+                    </tr>
+                </thead>
+                <tbody id="result">
+                
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</body>
+<script>
+    // ajax based on the predfined class -xmlHttpRequest()
+    // step1 create an object for this class
+    const http=new XMLHttpRequest()
+    // step2 create an api connection using open() method present in the class
+    http.open('get','https://jsonplaceholder.typicode.com/todos')
+    // step3 send request - using send()
+    http.send()
+    // the value of readystate property will change - increment from 1-4
+    console.log(http.readyState);
+    // it handled by fn onreadystatechange()
+    http.onreadystatechange=()=>{
+        console.log(http.readyState);
+        if(http.readyState == 4){
+            if(http.status>=200 && http.status<300){ // for check response
+                // console.log(http.responseText);  //  variable that stored the responsed data  
+                // data json format
+                // ṭo convert string to object
+                let allTodo=JSON.parse(http.responseText)
+                console.log(allTodo);
+                allTodo.forEach(item => {
+                    result.innerHTML +=`
+                        <tr>
+                        <td>${item.userId}</td>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>${item.completed}</td>
+                    </tr>`
+                });
+            }
+            else{
+                console.log('no proper rsponse');
+            }
+        }
+        else{
+            console.log('no response');
+        }
+    }
+</script>
+</html>

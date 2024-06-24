@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax-user</title>
+    <!-- boostrap cdn-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+</head>
+<style>
+    * {
+        font-family: "Playfair Display", serif;
+    }
+</style>
+
+<body>
+    <h1 class="text-center text-success mt-5">USERS LIST</h1>
+    <div class="row w-100">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table table-bordered mt-4 shadow">
+                <thead>
+                    <tr>
+                        <th class="bg-success text-light ">Id</th>
+                        <th class="bg-success text-light ">Name</th>
+                        <th class="bg-success text-light ">Username</th>
+                        <th class="bg-success text-light ">Email</th>
+                        <th class="bg-success text-light ">City</th>
+                        <th class="bg-success text-light ">CompanyName</th>
+                    </tr>
+                </thead>
+                <tbody id="result">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</body>
+<script>
+    // step 1
+    const http = new XMLHttpRequest()
+    // step 2
+    http.open("get",'https://jsonplaceholder.typicode.com/users')
+    // step3
+    http.send()
+    http.onreadystatechange = () => {
+        console.log(http.readyState);
+        if (http.readyState == 4) {
+            if (http.status >= 200 && http.status < 300) {
+                // console.log(http.responseText);
+                let userDetails = JSON.parse(http.responseText)
+                console.log(userDetails);
+                userDetails.forEach(item => {
+                 result.innerHTML += `
+                 <tr>
+                    <td>${item.id}</td>
+                     <td>${item.name}</td>
+                      <td>${item.username}</td>
+                       <td>${item.email}</td>
+                        <td>${item.address.city}</td>
+                         <td>${item.company.name}</td>
+                </tr>
+                 `  
+                });
+            }
+            else {
+                console.log('no proper response');
+            }
+        }
+        else {
+            console.log('no response');
+        }
+    }
+</script>
+
+</html>
